@@ -16,6 +16,8 @@
   .card-text {
     font-size: 1rem;
     margin-top: 10px;
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
   }
   
   .card-body {
@@ -35,12 +37,16 @@
 
   h4{
     color:white;
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
   }
 
   li{
     background-color: transparent;
     color: white;
     border: none !important;
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
   }
 
   .btn-dark:hover {
@@ -51,4 +57,15 @@
 
 .btn-dark{
     margin-right:3px;
+}
+
+#nincsfoglalas{
+  color:white
+}
+
+H2{
+  color: white;
+  text-align: center;
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
 }

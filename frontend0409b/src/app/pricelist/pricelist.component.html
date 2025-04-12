@@ -8,7 +8,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let service of services">
+        <tr *ngFor="let service of services" id="ttr">
           <td>{{ service.name }}</td>
           <td>{{ service.price ? (service.price | number: '1.0-0') + ' Ft' : 'Nincs ár' }}</td>
           <td>

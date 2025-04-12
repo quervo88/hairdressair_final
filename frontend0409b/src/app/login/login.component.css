@@ -3,6 +3,8 @@
     background-color: #00d9ff;
     border-color: #00d9ff;
     color: black;
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
   }
   
   /* A login form stílusa */
@@ -11,6 +13,8 @@
     width: 100%;
     border:none !important;
     box-shadow: none !important;
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
   }
   
   .container {
@@ -19,10 +23,14 @@
   
   h2{
     color:white;
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
   }
 
   label{
     color:white;
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
   }
 
 #login{

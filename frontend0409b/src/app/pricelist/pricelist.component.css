@@ -1,6 +1,7 @@
 h2{
     color:white;
     text-align: center;
+    font-family: "Special Gothic Expanded One", sans-serif;
   }
   h3{
     color:white;
@@ -31,4 +32,6 @@ h2{
   
   table tbody tr th{
     background-color: transparent !important;
+    
   }
+

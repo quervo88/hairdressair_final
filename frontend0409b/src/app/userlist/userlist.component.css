@@ -1,32 +1,39 @@
 h2{
   color:white;
   text-align: center;
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
 }
 h3{
   color:white;
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
 }
 label{
-  color:white;
+  color:rgb(255, 255, 255);
 }
 
 .btn-dark:hover {
   background-color: #00d9ff;
   border-color: #00d9ff;
   color: black;
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
 }
 
 .btn-dark{
   margin-right:3px;
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
 }
 
-#editServicePrice{
-  margin-bottom:5px;
-}
 
 table tbody tr td{
   background-color: transparent !important;
   color:white;
   align-items: center;
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
 }
 
 table tbody tr th{

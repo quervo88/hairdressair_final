@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { switchMap } from 'rxjs/operators';
 
 declare var bootstrap: any; // A Bootstrap modalokhoz szükséges
 
@@ -75,15 +76,16 @@ export class UserlistComponent implements OnInit {
   // Feljogosítás
   setAdmin(): void {
     if (this.selectedUser) {
-      this.authService.setAdmin(this.selectedUser.id).subscribe(
-        (response) => {
+      this.authService.setAdmin(this.selectedUser.id).pipe(
+        switchMap(() => this.authService.addEmployee(this.selectedUser.id))
+      ).subscribe(
+        () => {
           this.successModalTitle = 'Feljogosítva';
           this.successModalMessage = `A felhasználó: ${this.selectedUser.name} sikeresen feljogosítva és rögzítve dolgozóként!`;
-
-          // Bezárjuk a kérdező modalt és megnyitjuk a sikeres művelet modal-t
+  
           const actionModal = bootstrap.Modal.getInstance(document.getElementById('actionModal'));
           actionModal.hide();
-
+  
           const successModal = new bootstrap.Modal(document.getElementById('successModal'));
           successModal.show();
         },
@@ -94,19 +96,21 @@ export class UserlistComponent implements OnInit {
       );
     }
   }
+  
 
   // Lefokozás
   demotivate(): void {
     if (this.selectedUser) {
-      this.authService.demotivate(this.selectedUser.id).subscribe(
-        (response) => {
+      this.authService.demotivate(this.selectedUser.id).pipe(
+        switchMap(() => this.authService.removeEmployee(this.selectedUser.id))
+      ).subscribe(
+        () => {
           this.successModalTitle = 'Lefokozva';
           this.successModalMessage = `A felhasználó: ${this.selectedUser.name} sikeresen lefokozva és a dolgozók listájából eltávolítva`;
-
-          // Bezárjuk a kérdező modalt és megnyitjuk a sikeres művelet modal-t
+  
           const actionModal = bootstrap.Modal.getInstance(document.getElementById('actionModal'));
           actionModal.hide();
-
+  
           const successModal = new bootstrap.Modal(document.getElementById('successModal'));
           successModal.show();
         },
@@ -117,6 +121,7 @@ export class UserlistComponent implements OnInit {
       );
     }
   }
+  
 
   // Sikeres művelet modal bezárása
   closeSuccessModal(): void {

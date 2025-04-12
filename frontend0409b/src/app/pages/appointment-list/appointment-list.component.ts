@@ -99,26 +99,24 @@ export class AppointmentListComponent implements OnInit {
   
     return daysDiff >= 0 && daysDiff <= 2;
   }
+  deleteConfirmModalInstance: any;
 
   deleteBooking(bookingId: number): void {
     this.bookingToDeleteId = bookingId;
-    // Az első modal megjelenítése
-    const deleteConfirmModalInstance = new bootstrap.Modal(document.getElementById('deleteConfirmModal')!);
-    deleteConfirmModalInstance.show();
+    this.deleteConfirmModalInstance = new bootstrap.Modal(document.getElementById('deleteConfirmModal')!);
+    this.deleteConfirmModalInstance.show();
   }
 
   confirmDelete(): void {
-    if (this.bookingToDeleteId !== null) {
-      const deleteConfirmModalInstance = new bootstrap.Modal(document.getElementById('deleteConfirmModal')!);
-      deleteConfirmModalInstance.hide(); // Bezárjuk a megerősítő modalt
-
+    if (this.bookingToDeleteId !== null && this.deleteConfirmModalInstance) {
+      this.deleteConfirmModalInstance.hide();
+  
       this.authService.delete(`deletebooking/${this.bookingToDeleteId}`).subscribe(
         (response) => {
           const deleteSuccessModalInstance = new bootstrap.Modal(document.getElementById('deleteSuccessModal')!);
           deleteSuccessModalInstance.show();
-          
-
-          this.loadBookings(this.filter); // Foglalások frissítése
+  
+          this.loadBookings(this.filter);
         },
         (error) => {
           console.error('Hiba történt a foglalás törlésénél', error);

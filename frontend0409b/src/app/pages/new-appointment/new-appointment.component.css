@@ -19,6 +19,8 @@
 
 h2 {
   color: white;
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
 }
 
 label {
@@ -32,4 +34,13 @@ label {
 
 #cim{
   color:white;
+}
+
+#nincsfodrasz{
+  color: white
+}
+
+#cim{
+  font-family: "DM Sans", sans-serif !important;
+  font-optical-sizing: auto;
 }

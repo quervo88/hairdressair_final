@@ -37,17 +37,21 @@ export class AuthService {
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((response: any) => {
-        const user = response.data.user;
-        const token = response.data?.token;
+        // Itt ellenőrizni kell, hogy a válasz sikeres-e
+        if (response.success) {
+          const user = response.data.user;
+          const token = response.data?.token;
   
-        if (user && token) {
-          localStorage.setItem('token', token);
-          localStorage.setItem('user', JSON.stringify(user));
-          this.userSubject.next(user); // Ez kell, hogy frissítse az AppComponentet
+          if (user && token) {
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+            this.userSubject.next(user);
+          }
         }
       })
     );
   }
+  
 
   getUser(): Observable<any> {
     const headers = this.getAuthHeaders();
