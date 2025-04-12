@@ -1,0 +1,30 @@
+/* A bejelentkezés gomb hover színe */
+.btn-dark:hover {
+    background-color: #00d9ff;
+    border-color: #00d9ff;
+    color: black;
+  }
+  
+  /* A login form stílusa */
+  .login-form {
+    max-width: 400px;
+    width: 100%;
+    border:none !important;
+    box-shadow: none !important;
+  }
+  
+  .container {
+    padding: 0;
+  }
+  
+  h2{
+    color:white;
+  }
+
+  label{
+    color:white;
+  }
+
+#login{
+    margin-top:10px;
+}

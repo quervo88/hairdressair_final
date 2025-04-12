@@ -1,0 +1,35 @@
+/* A foglalás gomb hover színe */
+.btn-dark:hover {
+  background-color: #00d9ff;
+  border-color: #00d9ff;
+  color: black;
+}
+
+/* A foglalás űrlap stílusa */
+.booking-form {
+  max-width: 500px;
+  width: 100%;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.container {
+  padding: 0;
+}
+
+h2 {
+  color: white;
+}
+
+label {
+  color: white;
+
+}#hal{
+    background-color: transparent;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+#cim{
+  color:white;
+}
