@@ -87,7 +87,7 @@ Route::delete("/deletebooking/{id}", [BookingController::class, "deleteBooking"]
 Route::get("/getbookingid", [BookingController::class, "getBookingId"]);
 Route::post('/bookings', [BookingController::class, 'store']);
 Route::get('/booked-times/{stylistId}/{date}', [BookingController::class, 'getBookedTimes']);
-Route::delete('/cancel-booking', [BookingController::class, 'cancelBooking']);
+// Route::delete('/cancel-booking', [BookingController::class, 'cancelBooking']);
 
 Route::middleware(['cors', 'auth:api'])  // CORS és API hitelesítés middleware alkalmazása
     ->get('/calendar-booked-appointments/{employeeId}/{date}', [BookingController::class, 'getCalendarBookedAppointments']);
