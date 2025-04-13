@@ -8,7 +8,7 @@ h2{
     font-weight: 700;
     font-style: normal;
     color: white;
-    font-size: 76px;
+    font-size: 76px !important;
 }
 
 #mainheaderer {

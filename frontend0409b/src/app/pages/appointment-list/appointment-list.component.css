@@ -69,3 +69,7 @@ H2{
   font-family: "DM Sans", sans-serif;
   font-optical-sizing: auto;
 }
+
+.card-text{
+  color:black;
+}

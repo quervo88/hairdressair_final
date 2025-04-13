@@ -39,3 +39,19 @@ table tbody tr td{
 table tbody tr th{
   background-color: transparent !important;
 }
+
+#actionModal .modal-title {
+  color: black;
+}
+
+#actionModal .modal-body p {
+  color: black;
+}
+
+#successModal .modal-title {
+  color: black;
+}
+
+#successModal .modal-body p {
+  color: black;
+}

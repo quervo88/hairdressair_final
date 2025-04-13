@@ -9,6 +9,7 @@ use App\Http\Requests\BookingRequest;
 use App\Http\Controllers\Api\ResponseController;
 use App\Http\Resources\Booking as BookingResource;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends ResponseController
 {
@@ -173,6 +174,10 @@ class BookingController extends ResponseController
 
     public function store(Request $request)
 {
+    $request->merge([
+        'appointment_time' => date('H:i:s', strtotime($request->appointment_time))
+    ]);
+    
     $request->validate([
         'user_id' => 'required|exists:users,id',
         'employee_id' => 'required|exists:employees,id',
@@ -203,13 +208,17 @@ class BookingController extends ResponseController
     return response()->json(['message' => 'Foglalás sikeres!', 'booking' => $booking], 201);
 }
 
-public function getBookedAppointments($employee_id, $date)
+public function getBookedTimes($stylistId, $date)
 {
-    $bookedTimes = Booking::where('employee_id', $employee_id)
-        ->where('appointment_date', $date)
-        ->pluck('appointment_time'); // Csak az időpontokat kérjük
+    $bookings = DB::table('bookings')
+    ->where('employee_id', $stylistId)
+    ->where('appointment_date', $date)
+    ->pluck('appointment_time')
+    ->map(function ($time) {
+        return date('H:i', strtotime($time));
+    });
 
-    return response()->json($bookedTimes);
+return response()->json($bookings);
 }
 
 public function cancelBooking(Request $request)
@@ -232,6 +241,26 @@ public function cancelBooking(Request $request)
 
     return response()->json(['message' => 'Foglalás sikeresen törölve!'], 200);
 }
+
+public function getCalendarBookedAppointments($employee_id, $date)
+{
+    dd($date);  // Debug üzenet, hogy lássuk, mit kap a backend
+    $bookedTimes = Booking::where('employee_id', $employee_id)
+        ->whereDate('appointment_date', $date)
+        ->get(['appointment_time', 'service_name', 'user_name']); 
+
+    // A válasz formázása
+    $events = $bookedTimes->map(function ($booking) use ($date) {
+        return [
+            'title' => $booking->user_name . ' - ' . $booking->service_name,
+            'start' => $date . 'T' . $booking->appointment_time, 
+            'end' => $date . 'T' . $booking->appointment_time,
+        ];
+    });
+
+    return response()->json($events);
+}
+
 
 
 

@@ -26,4 +26,5 @@ return Application::configure(basePath: dirname(__DIR__))
     $app->middleware([
         \Fruitcake\Cors\HandleCors::class,
         \Illuminate\Http\Middleware\HandleCors::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
     ]);

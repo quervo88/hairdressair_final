@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
 import { AppointmentService } from '../../models/appointment-service.model';
+import { HttpClient } from '@angular/common/http';
 
 declare var bootstrap: any; // Importáljuk az interfészt
 
@@ -26,7 +27,7 @@ export class NewAppointmentComponent implements OnInit {
   employees: any[] = [];
   users: any[] = [];
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.setMinDate();
@@ -206,30 +207,75 @@ export class NewAppointmentComponent implements OnInit {
   
   
 
-  updateAvailableTimes() {
-    if (!this.appointmentObj.appointmentDate || !this.appointmentObj.stylist) return;
+  updateAvailableTimes(): void {
+    if (!this.appointmentObj.stylist || !this.appointmentObj.appointmentDate) return;
   
-    const selectedDate = new Date(this.appointmentObj.appointmentDate);
-    const day = selectedDate.getDay();
+    const selectedDate = this.appointmentObj.appointmentDate;
+    const stylistId = this.appointmentObj.stylist;
   
-    if (day === 0 || day === 6) {
+    const date = new Date(selectedDate);
+    const day = date.getDay(); // 0 = vasárnap, 6 = szombat
+  
+    // Magyar ünnepnapok (2025)
+    const holidays = [
+      '2025-01-01', // Újév
+      '2025-03-15', // Nemzeti ünnep
+      '2025-04-18', // Nagypéntek 
+      '2025-04-21', // Húsvét hétfő
+      '2025-05-01', // Munka ünnepe
+      '2025-06-09', // Pünkösd hétfő
+      '2025-08-20', // Alkotmány napja
+      '2025-10-23', // 1956-os forradalom
+      '2025-11-01', // Mindenszentek
+      '2025-12-24', // Szenteste
+      '2025-12-25', // Karácsony
+      '2025-12-26'  // Karácsony másnapja
+    ];
+  
+    // Ha hétvége vagy ünnepnap, nem elérhető
+    if (day === 0 || day === 6 || holidays.includes(selectedDate)) {
       this.availableTimes = [];
+      console.warn('Ez a nap nem elérhető: hétvége vagy ünnepnap');
       return;
     }
   
-    let allTimes = this.generateTimeSlots(9, 17, 30);
+    console.log('Lekérés indul:', stylistId, selectedDate);
   
-    this.authService.getBookedAppointments(this.appointmentObj.stylist, this.appointmentObj.appointmentDate)
-      .subscribe((bookedTimes: string[]) => {
-        this.availableTimes = allTimes.filter(time => !bookedTimes.includes(time));
-        if (bookedTimes.includes(this.appointmentObj.appointmentTime)) {
-          this.appointmentObj.appointmentTime = ''; 
-        }
-      }, error => {
-        console.error("Hiba történt a foglalt időpontok lekérésekor:", error);
-        this.availableTimes = allTimes;
-      });
+    this.http.get<string[]>(`http://localhost:8000/api/booked-times/${stylistId}/${selectedDate}`).subscribe({
+      next: (bookedTimes: string[]) => {
+        console.log('Foglalások a szerverről:', bookedTimes);
+        this.availableTimes = this.generateTimes().filter(time =>
+          !bookedTimes.some(booked => booked.startsWith(time))
+        );
+        console.log('Szabad időpontok:', this.availableTimes);
+      },
+      error: (err) => {
+        console.error('Hiba az API hívásban:', err);
+        this.availableTimes = [];
+      }
+    });
   }
+  
+  
+
+  generateTimes(): string[] {
+    const times: string[] = [];
+    let start = 9;
+    let end = 17;
+  
+    for (let hour = start; hour < end; hour++) {
+      times.push(`${this.pad(hour)}:00`);
+      times.push(`${this.pad(hour)}:30`);
+    }
+  
+    return times;
+  }
+
+  pad(num: number): string {
+    return num < 10 ? '0' + num : num.toString();
+  }
+
+
 
   loadAllUsers() {
     this.authService.getUsers().subscribe({

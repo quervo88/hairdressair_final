@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { ServicesListComponent } from './services-list/services-list.component';
 import { HomeComponent } from './home/home.component';
 import { PriceListComponent } from './pricelist/pricelist.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' }, // alapértelmezett útvonal átirányítása
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'superadmin', component: UserlistComponent },
   { path: 'services', component: ServicesListComponent },
-  { path: 'pricelist', component: PriceListComponent }
+  { path: 'pricelist', component: PriceListComponent },
+  { path: 'calendar', component: CalendarComponent },
 ];
 
 @NgModule({

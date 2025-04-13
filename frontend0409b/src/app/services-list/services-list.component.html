@@ -14,7 +14,7 @@
         <td>{{ service.price ? (service.price | number: '1.0-0') + ' Ft' : 'Nincs ár' }}</td>
         <td>
           <button class="btn btn-dark btn-sm" (click)="editService(service)">Módosítás</button>
-          <button class="btn btn-danger btn-sm" (click)="deleteService(service.value)">Törlés</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteService(service)">Törlés</button>
         </td>
       </tr>
     </tbody>
@@ -76,6 +76,44 @@
     </div>
   </div>
 </div>
+
+<!-- Törlés megerősítés modal -->
+<div class="modal fade" id="deleteServiceModal" tabindex="-1" aria-labelledby="deleteServiceModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteServiceModalLabel">Szolgáltatás törlése</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Bezárás"></button>
+      </div>
+      <div class="modal-body">
+        Biztosan törölni szeretné az alábbi szolgáltatást?<br><strong>{{ serviceToDelete?.name }}</strong>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark btn-sm" (click)="confirmDelete()">Igen</button>
+        <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Mégsem</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sikeres törlés modal -->
+<div class="modal fade" id="deleteSuccessModal" tabindex="-1" aria-labelledby="deleteSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteSuccessModalLabel">Törlés sikeres</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Bezárás"></button>
+      </div>
+      <div class="modal-body">
+        Szolgáltatás sikeresen törölve.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark btn-sm" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 

@@ -14,6 +14,7 @@ export class ServicesListComponent implements OnInit {
   services: any[] = [];
   newService = { name: '', price: null };
   editingService: any = null;
+  serviceToDelete: any = null;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -79,24 +80,43 @@ export class ServicesListComponent implements OnInit {
     modal.show();
   }
 
+
   // Szolgáltatás törlése
-  deleteService(serviceId: number): void {
-    if (confirm('Biztosan törölni szeretné ezt a szolgáltatást?')) {
-      this.authService.deleteService(serviceId).subscribe(
-        (response) => {
-          if (response.success) {
-            this.services = this.services.filter(service => service.id !== serviceId); // Eltávolítjuk a törölt szolgáltatást
-            console.log('Szolgáltatás törölve');
-          } else {
-            console.error('Hiba történt a szolgáltatás törlésekor');
-          }
-        },
-        (error) => {
-          console.error('Hiba történt a szolgáltatás törlésekor:', error);
-        }
-      );
-    }
+  deleteService(service: any): void {
+    this.serviceToDelete = service;
+    const modal = new bootstrap.Modal(document.getElementById('deleteServiceModal'));
+    modal.show();
   }
+
+  confirmDelete(): void {
+    if (!this.serviceToDelete) return;
+  
+    const serviceId = this.serviceToDelete.value || this.serviceToDelete.id;
+  
+    this.authService.deleteService(serviceId).subscribe({
+      next: (response) => {
+        if (response.success) {
+          // frissítjük a listát
+          this.services = this.services.filter(service => (service.id || service.value) !== serviceId);
+  
+          // bezárjuk a megerősítő modalt
+          const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteServiceModal'));
+          deleteModal.hide();
+  
+          // megjelenítjük a siker modalt
+          const successModal = new bootstrap.Modal(document.getElementById('deleteSuccessModal'));
+          successModal.show();
+  
+          // nullázzuk az aktuális törlendő szolgáltatást
+          this.serviceToDelete = null;
+        }
+      },
+      error: (err) => {
+        console.error('Hiba történt a szolgáltatás törlésekor:', err);
+      }
+    });
+  }
+  
 
   // Szolgáltatás módosítása
   saveEditedService(): void {

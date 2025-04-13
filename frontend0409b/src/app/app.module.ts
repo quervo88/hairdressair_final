@@ -14,7 +14,8 @@ import { HomeComponent } from './home/home.component';
 import { UserlistComponent } from './userlist/userlist.component';
 import { ServicesListComponent } from './services-list/services-list.component';
 import { PriceListComponent } from './pricelist/pricelist.component';
-
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { CalendarComponent } from './calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { PriceListComponent } from './pricelist/pricelist.component';
     UserlistComponent,
     ServicesListComponent,
     PriceListComponent,
+    CalendarComponent,
     
   ],
   imports: [
@@ -36,6 +38,7 @@ import { PriceListComponent } from './pricelist/pricelist.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    FullCalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

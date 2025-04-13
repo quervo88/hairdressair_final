@@ -158,6 +158,11 @@ export class AuthService {
     return this.http.get<any>(`${this.apiUrl}/getbookings`, { headers: this.getAuthHeaders() });  // Az API végpont pontos megadása
   }
 
+  getCalendarBookedAppointments(employeeId: number, date: string): Observable<any[]> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<any[]>(`${this.apiUrl}/calendar-booked-appointments/${employeeId}/${date}`, { headers });
+  }
+
   // cancelBooking(bookingId: number): Observable<any> {
   //   return this.http.delete<any>(`${this.apiUrl}/cancel-booking`, { body: { booking_id: bookingId } });
   // }

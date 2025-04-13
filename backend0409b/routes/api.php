@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\api\ProfileController;
 use App\Http\Controllers\Api\AuthController;
+use Fruitcake\Cors\HandleCors;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -85,8 +86,12 @@ Route::put("/updatebooking/{id}", [BookingController::class, "updateBooking"]);
 Route::delete("/deletebooking/{id}", [BookingController::class, "deleteBooking"]);
 Route::get("/getbookingid", [BookingController::class, "getBookingId"]);
 Route::post('/bookings', [BookingController::class, 'store']);
-Route::get('/booked-appointments/{employee_id}/{date}', [BookingController::class, 'getBookedAppointments']);
+Route::get('/booked-times/{stylistId}/{date}', [BookingController::class, 'getBookedTimes']);
 Route::delete('/cancel-booking', [BookingController::class, 'cancelBooking']);
+
+Route::middleware(['cors', 'auth:api'])  // CORS és API hitelesítés middleware alkalmazása
+    ->get('/calendar-booked-appointments/{employeeId}/{date}', [BookingController::class, 'getCalendarBookedAppointments']);
+
 // Route::get('/getBookings', [BookingController::class, 'getBookings']);
 
 // Route::get("/customers", [CustomerController::class, "getCustomers"]);

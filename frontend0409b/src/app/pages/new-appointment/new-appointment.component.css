@@ -44,3 +44,10 @@ label {
   font-family: "DM Sans", sans-serif !important;
   font-optical-sizing: auto;
 }
+
+h2{
+  font-family: "DM Sans", sans-serif !important;
+  font-style: bold;
+  font-optical-sizing: auto;
+  text-align: center;
+}
